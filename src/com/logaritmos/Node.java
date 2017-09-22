@@ -12,7 +12,6 @@ public class Node {
  private Node center;
  private Node right;
 
- private boolean Leaf;
  private int value; //valores como enteros (?)
 
  //fx para extraer nodos
@@ -26,10 +25,6 @@ public class Node {
  public void setCenter(Node n) {center= n;}
  public void setRight(Node n) {right= n;}
 
- public boolean isFull(){
-   return !(isLEmpty() && isCEmpty() && isREmpty());
- }
-
  private boolean isLEmpty(){
    return this.left == null;
  }
@@ -42,7 +37,7 @@ public class Node {
 
   /*TODO
   fxs para hojas*/
-  public boolean isLeaf(){return this.Leaf;}
+  public boolean isLeaf(){return (isLEmpty() && isCEmpty() && isREmpty());}
   public void setValue(int n){
     if (this.isLeaf()){
       value=n;
