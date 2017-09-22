@@ -1,48 +1,32 @@
 package com.logaritmos;
 
-public class Node {
+import java.util.ArrayList;
+
+public class Node extends RTree {
  /*TODO
- * 1. Cada nodo interno representa un rectangulo (=nodo)
- * 2. nodos con datos = hojas
- * 3. cada nodo lmacena r rectángulos (m <= r <= M)
- * 3.a. la raiz almacena al menos dos rectángulos
- * 4. Todas las  hojas están a la misma altura*/
- private Node father;
- private Node left;
- private Node center;
- private Node right;
+ * 1. Cada nodo interno representa un rectangulo rectangle (MBR)
+ * 2. Cada nodo posee entre m y M hijos
+ * 3. La raiz posee al menos dos hijos
+ * 3.a. La raiz no posee padre
+ */
+ private ArrayList<Node> children;
+ private ChildrenFile childrenFile;
 
- private int value; //valores como enteros (?)
 
- //fx para extraer nodos
+  public Node(ChildrenFile file) {
+    super();
+    this.children = null;
+    this.childrenFile = file;
+    this.rectangle = childrenFile.computeMBR();
+  }
+
+  //fx getter
   public Node getFather() {return father;}
- public Node getLeft(){ return left;}
- public Node getCenter(){return center;}
- public Node getRight(){return right;}
+
+  public Boolean overlaps(Rectangle aRectangle){
+    return this.rectangle.overlaps(aRectangle);
+  }
  //fx para setear nodos
   public void setFather(Node n){father=n;}
- public void setLeft(Node n) {left= n;}
- public void setCenter(Node n) {center= n;}
- public void setRight(Node n) {right= n;}
 
- private boolean isLEmpty(){
-   return this.left == null;
- }
- private boolean isCEmpty(){
-   return this.center == null;
- }
- private boolean isREmpty(){
-   return this.right==null;
- }
-
-  /*TODO
-  fxs para hojas*/
-  public boolean isLeaf(){return (isLEmpty() && isCEmpty() && isREmpty());}
-  public void setValue(int n){
-    if (this.isLeaf()){
-      value=n;
-    } else{
-      //TODO manejo de errores
-    }
-  }
 }
