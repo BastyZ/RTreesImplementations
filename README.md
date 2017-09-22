@@ -1,4 +1,4 @@
-# RTrees Implementations
+# R-Trees Implementations
 
 Este código es la respuesta a la Tarea 1 del curso "Diseño y Análisis de Algoritmos" primavera 2017 (CC4102) impartido en dcc.uchile.cl.
 El código está escrito completamente en Java usando Github y Google CodeStyle como forma de mantener las "buenas practicas" en el desarrollo.
