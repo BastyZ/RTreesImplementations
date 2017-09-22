@@ -3,7 +3,7 @@ package com.logaritmos;
 import java.util.ArrayList;
 
 public class Node extends RTree {
- /*TODO
+ /*TODO implementar metodos no abstractos
  * 1. Cada nodo interno representa un rectangulo rectangle (MBR)
  * 2. Cada nodo posee entre m y M hijos
  * 3. La raiz posee al menos dos hijos
