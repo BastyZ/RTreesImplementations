@@ -8,4 +8,10 @@ public class Rectangle {
      */
     return false;
   }
+
+  public void multiMax(int left, int right, int top, int bottom) {
+    /*
+     * TODO cambiar el maximo de this si input value es mayor
+     */
+  }
 }
