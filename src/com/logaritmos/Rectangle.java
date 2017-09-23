@@ -31,4 +31,6 @@ public class Rectangle {
     return contains(aRight,this.left,this.right);
   }
 
+  public void multiMax(int i, int i1, int i2, int i3) {
+  }
 }
