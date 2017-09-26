@@ -9,5 +9,5 @@ Los integrantes del grupo están en la sección de colaboradores
 __sobre la integración con Overleaf:__ Al modificar cosas en el informe se porfavor realizar ```git submodule update```en el terminal del IDE o en git según donde se esté trabajando.
 
 Hemos elegido implementar las siguiente heurísticas:
-[] Linear Split
-[] Greene's Split
+- [ ] Linear Split
+- [ ] Greene's Split
