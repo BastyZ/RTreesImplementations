@@ -7,3 +7,7 @@ Para esto se ha usado el IDE IntelliJ IDEA 2017.2.4 o superior y Java 9.
 Los integrantes del grupo están en la sección de colaboradores
 
 __sobre la integración con Overleaf:__ Al modificar cosas en el informe se porfavor realizar ```git submodule update```en el terminal del IDE o en git según donde se esté trabajando.
+
+Hemos elegido implementar las siguiente heurísticas:
+-[] Linear Split
+-[] Greene's Split
