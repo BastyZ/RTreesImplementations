@@ -66,9 +66,16 @@ public class Node implements Serializable{
    ByteArrayInputStream info = new ByteArrayInputStream(code);
    ObjectInputStream node = new ObjectInputStream(info);
    n = (Node) node.readObject();
-   node.cloes();
-   info.close;
+   node.close();
+   info.close();
    return n;
  }
 
+  public ArrayList<Rectangle> getRectangles() {
+    return this.rectangles;
+  }
+
+  public long getMemoryAddress(){
+   return this.myAddress;
+  }
 }
