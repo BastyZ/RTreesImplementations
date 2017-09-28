@@ -1,7 +1,11 @@
 package com.logaritmos;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOError;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -47,4 +51,27 @@ public class DiskController {
     lastOnes.remove(addr);
     lastOnes.addFirst(addr);
   }
+
+  private long memoryAssigner(){
+    this.createdNodes++;
+    return this.createdNodes;
+  }
+
+  private Node readFile(long addr)
+      throws IOException, ClassNotFoundException{
+    ObjectInputStream node = new ObjectInputStream(new FileInputStream(addr+".node"));
+    Node n = (Node) node.readObject();
+    node.close();
+    this.callDisk++;
+    n.diskController = this;
+    return n;
+  }
+
+  private void writeFile(Node n, long addr) throws IOException{
+    ObjectOutputStream info = new ObjectOutputStream(new FileOutputStream(addr+".node"));
+    info.writeObject(n);
+    info.close();
+    this.callDisk++;
+  }
+
 }

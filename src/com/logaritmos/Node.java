@@ -20,7 +20,7 @@ public class Node implements Serializable{
  private int M; //tamano max de pag, VARIABLE
  private ArrayList<Rectangle> rectangles;
  private ArrayList<Long> children; //IMPORTANTE: indices de rectangles y children deben coincidir
- private DiskController diskController;
+ transient DiskController diskController;
  /*info propia del nodo*/
  private long myAddress;
  private Rectangle myMBR;
