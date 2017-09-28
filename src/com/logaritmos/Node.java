@@ -45,8 +45,7 @@ public class Node implements Serializable{
     this.myAddress = addr;
     this.imLeaf = leaf;
     this.imRoot = root;
-     //TODO incompleto
-    //this.diskController.saveNode(this);
+    this.diskController.saveNode(this);
    }
  }
 

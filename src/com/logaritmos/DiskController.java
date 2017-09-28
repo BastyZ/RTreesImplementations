@@ -1,5 +1,7 @@
 package com.logaritmos;
 
+import java.io.IOError;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -20,5 +22,29 @@ public class DiskController {
     usedNodes = 0;
     callDisk = 0;
     createdNodes = 1;
+  }
+
+  public void saveNode(Node n)
+      throws IOException{
+    //TODO: issue #23
+    long addr = n.getMemoryAddress();
+    nodes.put(addr, n);
+    stateOfNodes.put(addr,true);
+    this.setLast(addr);
+    if(!nodes.containsKey(addr)){
+      usedNodes++;
+    }
+    return;
+  }
+
+  public Node loadNode(long addr)
+      throws IOException, ClassNotFoundException{
+    this.setLast(addr);
+    return nodes.get(addr);
+  }
+
+  private void setLast(long addr){
+    lastOnes.remove(addr);
+    lastOnes.addFirst(addr);
   }
 }
