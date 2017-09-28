@@ -1,8 +1,9 @@
 package com.logaritmos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Node {
+public class Node implements Serializable{
  /*TODO implementar metodos no abstractos
  * 1. Cada nodo interno representa un rectangulo rectangle (MBR)
  * 2. Cada nodo posee entre m y M hijos
@@ -21,13 +22,15 @@ public class Node {
  private boolean imRoot;
 
  public Node (int m, int M, ArrayList<Rectangle> r, ArrayList<Long> c,
-     DiskController d, long addr, boolean leaf){
-   Node(m,M,r,c,d,addr,leaf,false);
+     DiskController d, long addr, boolean leaf) throws Exception{
+   this(m,M,r,c,d,addr,leaf,false);
  }
 
  protected Node(int m, int M, ArrayList<Rectangle> r, ArrayList<Long> c,
-     DiskController d, long addr, boolean leaf, boolean root){
-   //TODO incompleto
+     DiskController d, long addr, boolean leaf, boolean root) throws Exception{
+   if(r.size()>M || (!root && r.size()<m)){
+     throw new Exception();
+   }else{
     this.m = m;
     this.M = M;
     this.rectangles = r;
@@ -36,6 +39,9 @@ public class Node {
     this.myAddress = addr;
     this.imLeaf = leaf;
     this.imRoot = root;
+     //TODO incompleto
+    //this.diskController.saveNode(this);
+   }
  }
 
 }

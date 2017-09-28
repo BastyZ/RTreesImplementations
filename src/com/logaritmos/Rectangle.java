@@ -1,10 +1,45 @@
 package com.logaritmos;
 
-public class Rectangle {
+import java.io.Serializable;
+
+public class Rectangle implements Serializable {
   public int left;
   public int right;
   public int top;
   public int bottom;
+
+  public Rectangle(int l,int r, int t, int b){
+    this.setXaxis(l,r);
+    this.setYaxis(t,b);
+  }
+
+  private void setXaxis(int a, int b){
+    //el eje crece de izquierda a derecha
+    this.left = getMin(a,b);
+    this.right = getMax(a,b);
+  }
+
+  private void setYaxis(int a, int b){
+    //el eje Y crece de abajo hacia arriba
+    this.top = getMax(a,b);
+    this.bottom = getMin(a,b);
+  }
+
+  private int getMax(int a, int b){
+    if (a<=b){
+      return a;
+    }else{
+      return b;
+    }
+  }
+
+  private int getMin(int a, int b){
+    if (a<b){
+      return a;
+    }else{
+      return b;
+    }
+  }
 
   public boolean overlaps(Rectangle aRectangle) {
     return (this.inVertical(aRectangle) && this.inHorizontal(aRectangle));
