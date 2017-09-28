@@ -1,5 +1,5 @@
 package com.logaritmos;
 
-public interface StateInterface {
+public interface ISplit {
   public String name();
 }

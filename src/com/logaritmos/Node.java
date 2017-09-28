@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import org.w3c.dom.css.Rect;
 
 public class Node implements Serializable{
 
@@ -78,5 +79,47 @@ public class Node implements Serializable{
 
   public long getMemoryAddress(){
    return this.myAddress;
+  }
+
+  private Long getChildAddress(int index){
+    return this.children.get(index);
+  }
+
+  private Node getChild (int index) throws IOException, ClassNotFoundException{
+    return diskController.loadNode(getChildAddress(index));
+  }
+
+  private Rectangle getRectangle(int index){
+    return this.rectangles.get(index);
+  }
+  public ArrayList<Rectangle> search(Rectangle r)
+      throws IOException, ClassNotFoundException{
+    ArrayList<Rectangle> found = new ArrayList<Rectangle>();
+    if (this.imLeaf){
+      for(Rectangle temp : this.rectangles){
+        if(temp.intersects(r)){
+          found.add(temp);
+        }
+      }
+    } else {
+      int index = 0;
+      for (Rectangle temp : this.rectangles){
+        if (temp.intersects(r)){
+          ArrayList<Rectangle> inception = this.getChild(index).search(r);
+          found.addAll(inception);
+        }
+        index++;
+      }
+    }
+    return found;
+  }
+
+  public Long insert(Rectangle r, ISplit overflowHandler){
+    if(this.imLeaf){
+      this.rectangles.add(r);
+      this.children.add(null);
+    } else {
+      ArrayList<Rectangle>
+    }
   }
 }

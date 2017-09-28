@@ -1,6 +1,6 @@
 package com.logaritmos;
 
-public class GreeneSplit implements StateInterface {
+public class GreeneSplit implements ISplit {
 
   @Override
   public String name() {
