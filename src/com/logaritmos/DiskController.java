@@ -1,29 +1,24 @@
 package com.logaritmos;
 
-import static java.lang.Integer.*;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 public class DiskController {
-  private File path;
+  private int PageSize; //tamaño buffer
+  private HashMap<Long,Node> nodes; //direccion y nodos guardados
+  private HashMap<Long,Boolean> stateOfNodes; //boolean de si el nodo fue modificado o no
+  private LinkedList<Long> lastOnes; //direccion de los ultimos nodos accesados
+  private int usedNodes; //nro de nodos guardados
+  private long createdNodes; //nro nodos creados
+  public int callDisk; //nro llamadas a disco
 
-  public Rectangle computeMBR() throws IOException {
-    Rectangle mbr = new Rectangle();
-    try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-      String line;
-      while ((line = br.readLine()) != null) {
-        String[] list = line.split(",");
-        mbr.multiMax(parseInt(list[0]), parseInt(list[1]), parseInt(list[2]), parseInt(list[3]));
-      }
-
-      br.close();
-    }
-    /*
-    TODO calcular el MBR a artir de los hijos
-     */
-    return null;
+  public DiskController(){
+    PageSize=1;
+    nodes = new HashMap<Long,Node>();
+    stateOfNodes = new HashMap<Long, Boolean>();
+    lastOnes = new LinkedList<Long>();
+    usedNodes = 0;
+    callDisk = 0;
+    createdNodes = 1;
   }
 }
