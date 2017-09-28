@@ -3,6 +3,7 @@ package com.logaritmos;
 import java.io.Serializable;
 
 public class Rectangle implements Serializable {
+  private static final long serialVersionUID = 5L;
   public int left;
   public int right;
   public int top;

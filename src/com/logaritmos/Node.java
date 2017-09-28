@@ -1,5 +1,10 @@
 package com.logaritmos;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -10,6 +15,7 @@ public class Node implements Serializable{
  * 3. La raiz posee al menos dos hijos
  * 3.a. La raiz no posee padre
  */
+ private static final long serialVersionUID = 4L;
  private int m; //tamano min de paginacion
  private int M; //tamano max de pag, VARIABLE
  private ArrayList<Rectangle> rectangles;
@@ -42,6 +48,28 @@ public class Node implements Serializable{
      //TODO incompleto
     //this.diskController.saveNode(this);
    }
+ }
+
+ public byte[] serialize()
+     throws IOException{
+   ByteArrayOutputStream info = new ByteArrayOutputStream();
+   ObjectOutputStream node = new ObjectOutputStream(info);
+   node.writeObject(this);
+   byte[] code = info.toByteArray();
+   info.close();
+   node.close();
+   return code;
+ }
+
+ public Node deserialize(byte[] code)
+     throws IOException, ClassNotFoundException{
+   Node n;
+   ByteArrayInputStream info = new ByteArrayInputStream(code);
+   ObjectInputStream node = new ObjectInputStream(info);
+   n = (Node) node.readObject();
+   node.cloes();
+   info.close;
+   return n;
  }
 
 }
