@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class ChildrenFile {
+public class DiskController {
   private File path;
 
   public Rectangle computeMBR() throws IOException {

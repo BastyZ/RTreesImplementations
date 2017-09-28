@@ -10,14 +10,14 @@ public class Node extends RTree {
  * 3.a. La raiz no posee padre
  */
  private ArrayList<Node> children;
- private ChildrenFile childrenFile;
+ private DiskController diskController;
 
 
-  public Node(ChildrenFile file) {
+  public Node(DiskController file) {
     super();
     this.children = null;
-    this.childrenFile = file;
-    this.rectangle = childrenFile.computeMBR();
+    this.diskController = file;
+    this.rectangle = diskController.computeMBR();
   }
 
   //fx getter
