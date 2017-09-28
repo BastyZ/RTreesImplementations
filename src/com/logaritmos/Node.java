@@ -9,12 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Node implements Serializable{
- /*TODO implementar metodos no abstractos
- * 1. Cada nodo interno representa un rectangulo rectangle (MBR)
- * 2. Cada nodo posee entre m y M hijos
- * 3. La raiz posee al menos dos hijos
- * 3.a. La raiz no posee padre
- */
+
  private static final long serialVersionUID = 4L;
  private int m; //tamano min de paginacion
  private int M; //tamano max de pag, VARIABLE
@@ -34,6 +29,12 @@ public class Node implements Serializable{
 
  protected Node(int m, int M, ArrayList<Rectangle> r, ArrayList<Long> c,
      DiskController d, long addr, boolean leaf, boolean root) throws Exception{
+   /*
+ * 1. Cada nodo interno representa un rectangulo rectangle (MBR)
+ * 2. Cada nodo posee entre m y M hijos
+ * 3. La raiz posee al menos dos hijos
+ * 3.a. La raiz no posee padre
+ */
    if(r.size()>M || (!root && r.size()<m)){
      throw new Exception();
    }else{

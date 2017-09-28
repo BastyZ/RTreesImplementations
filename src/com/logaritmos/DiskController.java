@@ -2,7 +2,6 @@ package com.logaritmos;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOError;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -36,7 +35,7 @@ public class DiskController {
     stateOfNodes.put(addr,true);
     this.setLast(addr);
     if(!nodes.containsKey(addr)){
-      usedNodes++;
+      this.usedNodes++;
     }
     return;
   }
