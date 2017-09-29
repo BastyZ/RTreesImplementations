@@ -122,7 +122,7 @@ public class Node implements Serializable{
   }
 
   public Long insert(Rectangle r, ISplit overflowHandler)
-      throws IOException, ClassNotFoundException {
+      throws Exception {
     if (this.imLeaf) {
       //Si el nodo es una hoja se agrega r a rectangles y un null a children
       this.rectangles.add(r);
@@ -212,8 +212,8 @@ public class Node implements Serializable{
           c2.add(child);
           r2.add(rect);
         } else {
-          double area1 = myMBR.calculateMBR(rect,r1).area() - myMBR.calculateMBR(r1).area;
-          double area2 = myMBR.calculateMBR(rect,r2).area() - myMBR.calculateMBR(r2).area;
+          double area1 = myMBR.calculateMBR(rect,r1).area() - myMBR.calculateMBR(r1).area();
+          double area2 = myMBR.calculateMBR(rect,r2).area() - myMBR.calculateMBR(r2).area();
           if(area1 < area2) {
             c1.add(child);
             r1.add(rect);
@@ -225,10 +225,31 @@ public class Node implements Serializable{
         maxIndex--;
       }
       //si el nodo es raiz
+      if(this.imRoot){
+        Long addr1 = this.diskController.memoryAssigner();
+        Long addr2 = this.diskController.memoryAssigner();
+        Node n1 = new Node(this.m,this.M,r1,c1,this.diskController,addr1,this.imLeaf);
+        Node n2 = new Node(this.m,this.M,r2,c2,this.diskController,addr2,this.imLeaf);
 
+        this.rectangles = new ArrayList<Rectangle>();
+        this.children = new ArrayList<<Long>();
+        this.addChild(myMBR.calculateMBR(r1),addr1);
+        this.addChild(myMBR.calculateMBR(r2),addr2);
+        this.imLeaf = false;
 
+        diskController.saveNode(this);
+        diskController.saveNode(n1);
+        diskController.saveNode(n2);
+        return null;
+      }
       //actualizo el nodo
-
+      this.rectangles = r1;
+      this.children = c1;
+      Long addrBro = this.diskController.memoryAssigner();
+      Node bro = new Node(this.m,this.M,r2,c2,this.diskController,addrBro,this.imLeaf);
+      diskController.saveNode(this);
+      diskController.saveNode(bro);
+      return addrBro;
     }
   }
 

@@ -51,7 +51,7 @@ public class DiskController {
     lastOnes.addFirst(addr);
   }
 
-  private long memoryAssigner(){
+  public long memoryAssigner(){
     this.createdNodes++;
     return this.createdNodes;
   }
