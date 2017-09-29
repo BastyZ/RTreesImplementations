@@ -123,7 +123,7 @@ public class Rectangle implements Serializable {
     return result;
   }
 
-  public static Rectangle calculateMBR(List<Rectangle> rectangles) {
+  public static Rectangle calculateMBR(ArrayList<Rectangle> rectangles) {
     Rectangle ans = new Rectangle(0,0,0,0);
     for (Rectangle r : rectangles) {
       ans.left = min(ans.left, r.left);
@@ -132,6 +132,19 @@ public class Rectangle implements Serializable {
       ans.top = max(ans.top, r.top);
     }
     return ans;
+  }
+
+  public static Rectangle calculateMBR(Rectangle r1, Rectangle r2) {
+    ArrayList<Rectangle> list = new ArrayList<Rectangle>();
+    list.add(r1);
+    list.add(r1);
+    return calculateMBR(list);
+  }
+
+  public static Rectangle calculateMBR(Rectangle r, ArrayList<Rectangle> rectangles) {
+    ArrayList<Rectangle> list = new ArrayList<Rectangle>(rectangles);
+    list.add(r);
+    return calculateMBR(list);
   }
 
   // --------------------- Old Functions ------------------------------
