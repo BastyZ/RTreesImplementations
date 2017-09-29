@@ -84,6 +84,23 @@ public class Rectangle implements Serializable {
         || minorY.left <= majorY.left && minorY.left <= majorY.right && majorY.top <= majorY.bottom;
   }
 
+  public double intersectArea(Rectangle r) {
+    if (!this.intersects(r)) {return 0;}
+    double dx;
+    double dy;
+    if(this.right >= r.left) {
+      if(r.left >= this.left) {
+        dx = min(r.right, this.right) - r.left;
+      } else {
+        if (r.right >= this.right) {
+          dx = this.right - this.left;
+        } else {
+          dx = this.left - r.right;
+        }
+      }
+    }
+  }
+
   // --------------------- Old Functions ------------------------------
 
   public boolean overlaps(Rectangle aRectangle) {
