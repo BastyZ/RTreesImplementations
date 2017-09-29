@@ -1,5 +1,6 @@
 package com.logaritmos;
 
+import static java.lang.Math.abs;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
@@ -35,7 +36,39 @@ public class Rectangle implements Serializable {
     this.bottom = min(a,b);
   }
 
+  // getters
 
+  public int getTop() {
+    return this.top;
+  }
+
+  public int getBottom() {
+    return this.bottom;
+  }
+
+  public int getLeft() {
+    return this.left;
+  }
+
+  public int getRight() {
+    return this.right;
+  }
+
+  public int getHeight() {
+    return abs(this.top - this.bottom);
+  }
+
+  public int getWidth() {
+    return abs(this.right - this.left);
+  }
+
+  public double area() {
+    return (double) this.getHeight()*this.getWidth();
+  }
+
+  public double deltaArea(Rectangle rect1, Rectangle rect2) {
+    return abs(rect1.area() - rect2.area());
+  }
 
   public boolean overlaps(Rectangle aRectangle) {
     return (this.inVertical(aRectangle) && this.inHorizontal(aRectangle));
