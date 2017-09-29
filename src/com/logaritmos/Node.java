@@ -133,7 +133,7 @@ public class Node implements Serializable{
       double areaMin = -1;
       int index = 0;
       for (Rectangle temp : this.rectangles) {
-        double simArea = myMBR.calculateMBR(r, temp);
+        double simArea = Rectangle.calculateMBR(r, temp);
         double deltaMBR = simArea - temp.area();
         if (areaMin == -1) {
           areaMin = deltaMBR;
@@ -170,9 +170,9 @@ public class Node implements Serializable{
       Long childAddr = thisChild.insert(r, overflowHandler);
       ArrayList<Rectangle> childrenRect = this.getChild(cIndex).getRectangles();
       if (childAddr != null) {
-        addChild(myMBR.calculateMBR(childrenRect),childAddr);
+        addChild(Rectangle.calculateMBR(childrenRect),childAddr);
       }
-      this.rectangles.set(cIndex, myMBR.calculateMBR(childrenRect));
+      this.rectangles.set(cIndex, Rectangle.calculateMBR(childrenRect));
     }
     if (this.rectangles.size() <= this.M) {
       //si no hubo overflow, guarda y retorna null
@@ -212,8 +212,8 @@ public class Node implements Serializable{
           c2.add(child);
           r2.add(rect);
         } else {
-          double area1 = myMBR.calculateMBR(rect,r1).area() - myMBR.calculateMBR(r1).area();
-          double area2 = myMBR.calculateMBR(rect,r2).area() - myMBR.calculateMBR(r2).area();
+          double area1 = Rectangle.calculateMBR(rect,r1).area() - Rectangle.calculateMBR(r1).area();
+          double area2 = Rectangle.calculateMBR(rect,r2).area() - Rectangle.calculateMBR(r2).area();
           if(area1 < area2) {
             c1.add(child);
             r1.add(rect);
@@ -232,9 +232,9 @@ public class Node implements Serializable{
         Node n2 = new Node(this.m,this.M,r2,c2,this.diskController,addr2,this.imLeaf);
 
         this.rectangles = new ArrayList<Rectangle>();
-        this.children = new ArrayList<<Long>();
-        this.addChild(myMBR.calculateMBR(r1),addr1);
-        this.addChild(myMBR.calculateMBR(r2),addr2);
+        this.children = new ArrayList<Long>();
+        this.addChild(Rectangle.calculateMBR(r1),addr1);
+        this.addChild(Rectangle.calculateMBR(r2),addr2);
         this.imLeaf = false;
 
         diskController.saveNode(this);
