@@ -1,46 +1,41 @@
 package com.logaritmos;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 import java.io.Serializable;
 
 public class Rectangle implements Serializable {
   private static final long serialVersionUID = 5L;
-  public int left;
-  public int right;
-  public int top;
-  public int bottom;
+  private int left;
+  private int right;
+  private int top;
+  private int bottom;
 
   public Rectangle(int l,int r, int t, int b){
     this.setXaxis(l,r);
     this.setYaxis(t,b);
   }
 
+  // corrige los valores de un rectangulo en cada eje en caso de estar desordenados
+  public static void rectify(Rectangle rect) {
+    rect.setXaxis(rect.left, rect.right);
+    rect.setYaxis(rect.bottom, rect.top);
+  }
+
   private void setXaxis(int a, int b){
     //el eje crece de izquierda a derecha
-    this.left = getMin(a,b);
-    this.right = getMax(a,b);
+    this.left = min(a,b);
+    this.right = max(a,b);
   }
 
   private void setYaxis(int a, int b){
     //el eje Y crece de abajo hacia arriba
-    this.top = getMax(a,b);
-    this.bottom = getMin(a,b);
+    this.top = max(a,b);
+    this.bottom = min(a,b);
   }
 
-  private int getMax(int a, int b){
-    if (a<=b){
-      return a;
-    }else{
-      return b;
-    }
-  }
 
-  private int getMin(int a, int b){
-    if (a<b){
-      return a;
-    }else{
-      return b;
-    }
-  }
 
   public boolean overlaps(Rectangle aRectangle) {
     return (this.inVertical(aRectangle) && this.inHorizontal(aRectangle));
