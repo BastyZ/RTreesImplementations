@@ -257,4 +257,12 @@ public class Node implements Serializable{
     this.rectangles.add(r);
     this.children.add(addr);
   }
+
+  @Override
+  public ArrayList<Integer> split(LinearSplit l){
+    int index = 0;
+    int top, bottom, left, right;
+    int minTop, maxBottom, maxLeft, minRight;
+
+  }
 }
