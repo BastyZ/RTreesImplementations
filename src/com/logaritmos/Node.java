@@ -114,12 +114,64 @@ public class Node implements Serializable{
     return found;
   }
 
-  public Long insert(Rectangle r, ISplit overflowHandler){
+  private ArrayList<Integer> resetAndAdd(int i){
+    ArrayList<Integer> array = new ArrayList<Integer>();
+    array.add(i);
+    return array;
+  }
+
+  public Long insert(Rectangle r, ISplit overflowHandler)
+      throws IOException, ClassNotFoundException{
     if(this.imLeaf){
       this.rectangles.add(r);
       this.children.add(null);
     } else {
-      ArrayList<Rectangle>
+      ArrayList<Integer> candidates = new ArrayList<Integer>();
+      double areaMin = -1;
+      int index = 0;
+      for (Rectangle temp : this.rectangles){
+        double simArea = myMBR.calculateMBR(r,temp);
+        double deltaMBR = simArea - temp.area();
+        if(areaMin == -1){
+          areaMin = deltaMBR;
+          candidates.add(index);
+        }else if(deltaMBR == areaMin){
+          candidates.add(index);
+        }else if(deltaMBR < areaMin){
+          areaMin = deltaMBR;
+          candidates = resetAndAdd(index);
+        }
+        index++;
+      }
+
+      if(candidates.size() > 1){
+        areaMin = -1;
+        int candidate = 0;
+        for (Integer cIndex : candidates){
+          Rectangle temp = rectangles.get(cIndex);
+          double area = temp.area();
+          if (areaMin == -1){
+            areaMin = area;
+          } else if (area == areaMin){
+            candidate = cIndex;
+          } else if (area < areaMin){
+            areaMin = area;
+            candidate = cIndex;
+          }
+        }
+        candidates = resetAndAdd(candidate);
+      }
+      int cIndex = candidates.get(0);
+
+      Node thisChild = this.getChild(cIndex);
+      Long childAddr = thisChild.insert(r, overflowHandler);
+      ArrayList<Rectangle> childrenRect =  this.getChild(cIndex).getRectangles();
+      if(childAddr != null){
+        this.rectangles.add(myMBR.calculateMBR(childrenRect));
+        this.children.add(childAddr);
+      }
+      this.rectangles.set(cIndex, myMBR.calculateMBR(childrenRect));
     }
   }
+
 }
