@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 import org.w3c.dom.css.Rect;
 
 public class Node implements Serializable{
@@ -121,40 +122,42 @@ public class Node implements Serializable{
   }
 
   public Long insert(Rectangle r, ISplit overflowHandler)
-      throws IOException, ClassNotFoundException{
-    if(this.imLeaf){
+      throws IOException, ClassNotFoundException {
+    if (this.imLeaf) {
+      //Si el nodo es una hoja se agrega r a rectangles y un null a children
       this.rectangles.add(r);
       this.children.add(null);
     } else {
+      //Si estamos en un nodo interno, hay que decidir por donde bajar para esto
       ArrayList<Integer> candidates = new ArrayList<Integer>();
       double areaMin = -1;
       int index = 0;
-      for (Rectangle temp : this.rectangles){
-        double simArea = myMBR.calculateMBR(r,temp);
+      for (Rectangle temp : this.rectangles) {
+        double simArea = myMBR.calculateMBR(r, temp);
         double deltaMBR = simArea - temp.area();
-        if(areaMin == -1){
+        if (areaMin == -1) {
           areaMin = deltaMBR;
           candidates.add(index);
-        }else if(deltaMBR == areaMin){
+        } else if (deltaMBR == areaMin) {
           candidates.add(index);
-        }else if(deltaMBR < areaMin){
+        } else if (deltaMBR < areaMin) {
           areaMin = deltaMBR;
           candidates = resetAndAdd(index);
         }
         index++;
       }
-
-      if(candidates.size() > 1){
+      //elejimos al MEJOR candidato
+      if (candidates.size() > 1) {
         areaMin = -1;
         int candidate = 0;
-        for (Integer cIndex : candidates){
+        for (Integer cIndex : candidates) {
           Rectangle temp = rectangles.get(cIndex);
           double area = temp.area();
-          if (areaMin == -1){
+          if (areaMin == -1) {
             areaMin = area;
-          } else if (area == areaMin){
+          } else if (area == areaMin) {
             candidate = cIndex;
-          } else if (area < areaMin){
+          } else if (area < areaMin) {
             areaMin = area;
             candidate = cIndex;
           }
@@ -162,16 +165,75 @@ public class Node implements Serializable{
         candidates = resetAndAdd(candidate);
       }
       int cIndex = candidates.get(0);
-
+      //insertamos en rectangulo elegido
       Node thisChild = this.getChild(cIndex);
       Long childAddr = thisChild.insert(r, overflowHandler);
-      ArrayList<Rectangle> childrenRect =  this.getChild(cIndex).getRectangles();
-      if(childAddr != null){
-        this.rectangles.add(myMBR.calculateMBR(childrenRect));
-        this.children.add(childAddr);
+      ArrayList<Rectangle> childrenRect = this.getChild(cIndex).getRectangles();
+      if (childAddr != null) {
+        addChild(myMBR.calculateMBR(childrenRect),childAddr);
       }
       this.rectangles.set(cIndex, myMBR.calculateMBR(childrenRect));
     }
+    if (this.rectangles.size() <= this.M) {
+      //si no hubo overflow, guarda y retorna null
+      diskController.saveNode(this);
+      return null;
+    } else {
+      //si hay overflow hay que hacer split
+      ArrayList<Integer> splitted = this.split(overflowHandler);
+
+      ArrayList<Rectangle> r1 = new ArrayList<Rectangle>();
+      ArrayList<Long> c1 = new ArrayList<Long>();
+      int a1 = splitted.get(0).intValue();
+      ArrayList<Rectangle> r2 = new ArrayList<Rectangle>();
+      ArrayList<Long> c2 = new ArrayList<Long>();
+      int a2 = splitted.get(1).intValue();
+
+      c1.add(this.children.get(a1));
+      r1.add(this.rectangles.get(a1));
+      c2.add(this.children.get(a2));
+      r2.add(this.rectangles.get(a2));
+
+      this.children.remove(c1.get(0));
+      this.children.remove(c2.get(0));
+      this.rectangles.remove(r1.get(0));
+      this.rectangles.remove(r2.get(0));
+
+      int maxIndex = this.rectangles.size();
+      Random rnd = new Random();
+      while(maxIndex>0){
+        int index = rnd.nextInt(this.children.size());
+        Long child = this.children.remove(index);
+        Rectangle rect = this.rectangles.remove(index);
+        if ((c1.size() + children.size()) < this.m ){
+          c1.add(child);
+          r1.add(rect);
+        } else if ((c2.size() + children.size()) < this.m){
+          c2.add(child);
+          r2.add(rect);
+        } else {
+          double area1 = myMBR.calculateMBR(rect,r1).area() - myMBR.calculateMBR(r1).area;
+          double area2 = myMBR.calculateMBR(rect,r2).area() - myMBR.calculateMBR(r2).area;
+          if(area1 < area2) {
+            c1.add(child);
+            r1.add(rect);
+          } else {
+            c2.add(child);
+            r2.add(rect);
+          }
+        }
+        maxIndex--;
+      }
+      //si el nodo es raiz
+
+
+      //actualizo el nodo
+
+    }
   }
 
+  private void addChild(Rectangle r, Long addr){
+    this.rectangles.add(r);
+    this.children.add(addr);
+  }
 }
