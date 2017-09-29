@@ -123,13 +123,13 @@ public class Rectangle implements Serializable {
     return result;
   }
 
-  public static Rectangle calculateMBR(List<Rectangle> r) {
+  public static Rectangle calculateMBR(List<Rectangle> rectangles) {
     Rectangle ans = new Rectangle(0,0,0,0);
-    for (int i=0; i<r.size(); i++) {
-      ans.left = min(ans.left, r.get(i).left);
-      ans.right = max(ans.right, r.get(i).right);
-      ans.bottom = min(ans.bottom, r.get(i).bottom);
-      ans.top = max(ans.top, r.get(i).top);
+    for (Rectangle r : rectangles) {
+      ans.left = min(ans.left, r.left);
+      ans.right = max(ans.right, r.right);
+      ans.bottom = min(ans.bottom, r.bottom);
+      ans.top = max(ans.top, r.top);
     }
     return ans;
   }
