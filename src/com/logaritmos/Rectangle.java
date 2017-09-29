@@ -71,7 +71,17 @@ public class Rectangle implements Serializable {
   }
 
   public boolean intersects(Rectangle aRectangle) {
-    return false;
+    Rectangle minorY;
+    Rectangle majorY;
+    if (this.bottom <= aRectangle.bottom) {
+      minorY = this;
+      majorY = aRectangle;
+    } else {
+      minorY = aRectangle;
+      majorY = this;
+    }
+    return minorY.left <= majorY.left && minorY.right >= majorY.right && minorY.top >= majorY.bottom
+        || minorY.left <= majorY.left && minorY.left <= majorY.right && majorY.top <= majorY.bottom;
   }
 
   // --------------------- Old Functions ------------------------------
