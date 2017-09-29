@@ -123,6 +123,17 @@ public class Rectangle implements Serializable {
     return result;
   }
 
+  public static Rectangle calculateMBR(List<Rectangle> r) {
+    Rectangle ans = new Rectangle(0,0,0,0);
+    for (int i=0; i<r.size(); i++) {
+      ans.left = min(ans.left, r.get(i).left);
+      ans.right = max(ans.right, r.get(i).right);
+      ans.bottom = min(ans.bottom, r.get(i).bottom);
+      ans.top = max(ans.top, r.get(i).top);
+    }
+    return ans;
+  }
+
   // --------------------- Old Functions ------------------------------
 
   public boolean overlaps(Rectangle aRectangle) {
