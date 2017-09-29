@@ -70,6 +70,12 @@ public class Rectangle implements Serializable {
     return abs(rect1.area() - rect2.area());
   }
 
+  public boolean intersects(Rectangle aRectangle) {
+    return false;
+  }
+
+  // --------------------- Old Functions ------------------------------
+
   public boolean overlaps(Rectangle aRectangle) {
     return (this.inVertical(aRectangle) && this.inHorizontal(aRectangle));
   }
