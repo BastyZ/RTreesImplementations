@@ -133,7 +133,7 @@ public class Node implements Serializable{
       double areaMin = -1;
       int index = 0;
       for (Rectangle temp : this.rectangles) {
-        double simArea = Rectangle.calculateMBR(r, temp);
+        double simArea = Rectangle.calculateMBR(r, temp).area();
         double deltaMBR = simArea - temp.area();
         if (areaMin == -1) {
           areaMin = deltaMBR;
