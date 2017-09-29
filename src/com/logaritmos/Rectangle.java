@@ -86,8 +86,8 @@ public class Rectangle implements Serializable {
 
   public double intersectArea(Rectangle r) {
     if (!this.intersects(r)) {return 0;}
-    double dx;
-    double dy;
+    double dx = 0;
+    double dy = 0;
     if(this.right >= r.left) {
       if(r.left >= this.left) {
         dx = min(r.right, this.right) - r.left;
@@ -99,6 +99,18 @@ public class Rectangle implements Serializable {
         }
       }
     }
+    if(this.top >= r.bottom) {
+      if(r.bottom >= this.bottom) {
+        dy = min(this.bottom, r.top);
+      } else {
+        if(r.top >= this.top) {
+          dy = this.top - this.bottom;
+        } else {
+          dy = this.bottom - r.top;
+        }
+      }
+    }
+    return dx*dy;
   }
 
   // --------------------- Old Functions ------------------------------
