@@ -5,6 +5,8 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Rectangle implements Serializable {
   private static final long serialVersionUID = 5L;
@@ -111,6 +113,14 @@ public class Rectangle implements Serializable {
       }
     }
     return dx*dy;
+  }
+
+  public static double overlapSum(Rectangle r, ArrayList<Rectangle> rects) {
+    double result = 0;
+    for (Rectangle rec : rects) {
+      result += r.intersectArea(rec);
+    }
+    return result;
   }
 
   // --------------------- Old Functions ------------------------------
