@@ -137,7 +137,7 @@ public class Rectangle implements Serializable {
   public static Rectangle calculateMBR(Rectangle r1, Rectangle r2) {
     ArrayList<Rectangle> list = new ArrayList<Rectangle>();
     list.add(r1);
-    list.add(r1);
+    list.add(r2);
     return calculateMBR(list);
   }
 
