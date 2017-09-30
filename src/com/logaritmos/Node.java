@@ -93,6 +93,7 @@ public class Node implements Serializable{
   private Rectangle getRectangle(int index){
     return this.rectangles.get(index);
   }
+
   public ArrayList<Rectangle> search(Rectangle r)
       throws IOException, ClassNotFoundException{
     ArrayList<Rectangle> found = new ArrayList<Rectangle>();
