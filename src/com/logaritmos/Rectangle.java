@@ -6,7 +6,6 @@ import static java.lang.Math.min;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Rectangle implements Serializable {
   private static final long serialVersionUID = 5L;
@@ -15,64 +14,64 @@ public class Rectangle implements Serializable {
   private int top;
   private int bottom;
 
-  public Rectangle(int l,int r, int t, int b){
+  public Rectangle(int l, int r, int t, int b){
     this.setXaxis(l,r);
     this.setYaxis(t,b);
   }
 
-  // corrige los valores de un rectangulo en cada eje en caso de estar desordenados
+  // fix rectangle borders if order is not correct
   public static void rectify(Rectangle rect) {
     rect.setXaxis(rect.left, rect.right);
     rect.setYaxis(rect.bottom, rect.top);
   }
 
   private void setXaxis(int a, int b){
-    //el eje crece de izquierda a derecha
+    //axis grows from left to right
     this.left = min(a,b);
     this.right = max(a,b);
   }
 
   private void setYaxis(int a, int b){
-    //el eje Y crece de abajo hacia arriba
+    // axis grows from bottom to top
     this.top = max(a,b);
     this.bottom = min(a,b);
   }
 
   // getters
 
-  public int getTop() {
+  protected int getTop() {
     return this.top;
   }
 
-  public int getBottom() {
+  protected int getBottom() {
     return this.bottom;
   }
 
-  public int getLeft() {
+  protected int getLeft() {
     return this.left;
   }
 
-  public int getRight() {
+  protected int getRight() {
     return this.right;
   }
 
-  public int getHeight() {
+  protected int getHeight() {
     return abs(this.top - this.bottom);
   }
 
-  public int getWidth() {
+  protected int getWidth() {
     return abs(this.right - this.left);
   }
 
-  public double area() {
+  double area() {
     return (double) this.getHeight()*this.getWidth();
   }
 
-  public double deltaArea(Rectangle rect1, Rectangle rect2) {
+  protected double deltaArea(Rectangle rect1, Rectangle rect2) {
     return abs(rect1.area() - rect2.area());
   }
 
-  public boolean intersects(Rectangle aRectangle) {
+  boolean intersects(Rectangle aRectangle) {
     Rectangle minorY;
     Rectangle majorY;
     if (this.bottom <= aRectangle.bottom) {
@@ -86,7 +85,7 @@ public class Rectangle implements Serializable {
         || minorY.left <= majorY.left && minorY.left <= majorY.right && majorY.top <= majorY.bottom;
   }
 
-  public double intersectArea(Rectangle r) {
+  protected double intersectArea(Rectangle r) {
     if (!this.intersects(r)) {return 0;}
     double dx = 0;
     double dy = 0;
@@ -115,15 +114,15 @@ public class Rectangle implements Serializable {
     return dx*dy;
   }
 
-  public static double overlapSum(Rectangle r, ArrayList<Rectangle> rects) {
+  protected static double overlapSum(Rectangle r, ArrayList<Rectangle> recs) {
     double result = 0;
-    for (Rectangle rec : rects) {
+    for (Rectangle rec : recs) {
       result += r.intersectArea(rec);
     }
     return result;
   }
 
-  public static Rectangle calculateMBR(ArrayList<Rectangle> rectangles) {
+  static Rectangle calculateMBR(ArrayList<Rectangle> rectangles) {
     Rectangle ans = new Rectangle(0,0,0,0);
     for (Rectangle r : rectangles) {
       ans.left = min(ans.left, r.left);
@@ -134,14 +133,14 @@ public class Rectangle implements Serializable {
     return ans;
   }
 
-  public static Rectangle calculateMBR(Rectangle r1, Rectangle r2) {
+  static Rectangle calculateMBR(Rectangle r1, Rectangle r2) {
     ArrayList<Rectangle> list = new ArrayList<Rectangle>();
     list.add(r1);
     list.add(r2);
     return calculateMBR(list);
   }
 
-  public static Rectangle calculateMBR(Rectangle r, ArrayList<Rectangle> rectangles) {
+  static Rectangle calculateMBR(Rectangle r, ArrayList<Rectangle> rectangles) {
     ArrayList<Rectangle> list = new ArrayList<Rectangle>(rectangles);
     list.add(r);
     return calculateMBR(list);
