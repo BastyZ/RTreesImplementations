@@ -295,7 +295,22 @@ public class Node implements Serializable{
       }
       index++;
     }
-
+    //Actualizo Rectangulo myMBR como los rectangulos de rectangles
+    this.myMBR = Rectangle.calculateMBR(rectangles);
+    //Se crea un ArrayList para guardar los indices de los rectangulos más lejanos, luego
+    ArrayList<Integer> farTrees = new ArrayList<Integer>();
+    float propX = (minRight - maxLeft) / this.myMBR.getWidth();
+    float propY = (minTop - maxBottom) / this.myMBR.getHeight();
+    /*propX es mayor o igual a propY : se agrega el indice del menor derecho y mayor izquierdo
+    * sino : se agrega el indice del menor superior y el máximo inferior*/
+    if (propX >= propY){
+      farTrees.add(right);
+      farTrees.add(left);
+    } else {
+      farTrees.add(top);
+      farTrees.add(bottom);
+    }
+    return farTrees;
   }
 
   private boolean isMin(int min,int max){
