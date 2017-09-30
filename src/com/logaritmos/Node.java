@@ -254,16 +254,58 @@ public class Node implements Serializable{
     }
   }
 
-  private void addChild(Rectangle r, Long addr){
+    private void addChild(Rectangle r, Long addr){
     this.rectangles.add(r);
     this.children.add(addr);
+  }
+
+  private ArrayList<Integer> split(ISplit overflowHandler) {
+    return this.split(overflowHandler);
   }
 
   @Override
   public ArrayList<Integer> split(LinearSplit l){
     int index = 0;
-    int top, bottom, left, right;
+    int top = 0;
+    int bottom = 0;
+    int left = 0;
+    int right = 0;
     int minTop, maxBottom, maxLeft, minRight;
+    //iteramos sobre rectangles
+    for (Rectangle temp : this.rectangles){
+      if (index == 0){
+        minTop = temp.getTop();
+        maxBottom = temp.getBottom();
+        maxLeft = temp.getLeft();
+        minRight = temp.getRight();
+      } else {
+        if(isMin(temp.getRight(),minRight)){
+          right = index;
+          minRight = temp.getRight();
+        } if (isMin(maxLeft,temp.getLeft())){
+          left = index;
+          maxLeft = temp.getLeft();
+        } if (isMin(temp.getTop(),minTop)) {
+          top = index;
+          minTop = temp.getTop();
+        } if (isMin(maxBottom,temp.getBottom())){
+          bottom = index;
+          maxBottom = temp.getBottom();
+        }
+      }
+      index++;
+    }
 
   }
+
+  private boolean isMin(int min,int max){
+    return min < max;
+  }
+
+  @Override
+  public ArrayList<Integer> split(GreeneSplit g){
+    return null;
+
+  }
+
 }
