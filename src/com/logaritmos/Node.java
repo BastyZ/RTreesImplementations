@@ -240,6 +240,10 @@ public class Node implements Serializable{
     }
     return farTrees;
   }
+
+  private boolean isMin(int min,int max){
+    return min < max;
+  }
   //Overwrite
   private Long split(ISplit overflowHandler) {
 
@@ -319,14 +323,29 @@ public class Node implements Serializable{
     return addrBro;
   }
 
-  private boolean isMin(int min,int max){
-    return min < max;
-  }
-
   //Overwrite
   public Long split(GreeneSplit g){
     ArrayList<Integer> splitted = this.farestRectangle();
 
+    ArrayList<Rectangle> r1 = new ArrayList<Rectangle>();
+    ArrayList<Long> c1 = new ArrayList<Long>();
+    int a1 = splitted.get(0).intValue();
+    ArrayList<Rectangle> r2 = new ArrayList<Rectangle>();
+    ArrayList<Long> c2 = new ArrayList<Long>();
+    int a2 = splitted.get(1).intValue();
+
+    c1.add(this.children.get(a1));
+    r1.add(this.rectangles.get(a1));
+    c2.add(this.children.get(a2));
+    r2.add(this.rectangles.get(a2));
+
+    this.children.remove(c1.get(0));
+    this.children.remove(c2.get(0));
+    this.rectangles.remove(r1.get(0));
+    this.rectangles.remove(r2.get(0));
+    //TODO Greene's method
+
+    return null;
   }
 
 }
