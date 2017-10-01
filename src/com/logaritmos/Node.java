@@ -51,6 +51,7 @@ public class Node implements Serializable{
    }
  }
 
+ // maybe no sirva bc DiskController
  public byte[] serialize()
      throws IOException{
    ByteArrayOutputStream info = new ByteArrayOutputStream();
@@ -62,6 +63,7 @@ public class Node implements Serializable{
    return code;
  }
 
+ //Maybe no sirva bc DiskController
  public Node deserialize(byte[] code)
      throws IOException, ClassNotFoundException{
    Node n;
@@ -244,10 +246,6 @@ public class Node implements Serializable{
 
   private boolean isMin(int min,int max){
     return min < max;
-  }
-  //Overwrite
-  private Long split(ISplit overflowHandler) {
-
   }
 
   //Overwrite
