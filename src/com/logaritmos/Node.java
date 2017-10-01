@@ -265,7 +265,7 @@ public class Node implements Serializable{
     this.children.remove(c2.get(0));
     this.rectangles.remove(r1.get(0));
     this.rectangles.remove(r2.get(0));
-
+    // sorting
     int maxIndex = this.rectangles.size();
     Random rnd = new Random();
     while(maxIndex>0){
@@ -319,15 +319,15 @@ public class Node implements Serializable{
     return addrBro;
   }
 
-  Long greeneSplit() {
+  Long greeneSplit() throws Exception {
     ArrayList<Integer> pair = this.farthestRectangle();
     // first son
-    ArrayList<Rectangle> sonRectangles1 = new ArrayList<Rectangle>();
-    ArrayList<Long> sonChilds1 = new ArrayList<Long>();
+    ArrayList<Rectangle> sonRectangles1;
+    ArrayList<Long> sonChilds1;
     int firstIndex = pair.get(0);
     // second son
-    ArrayList<Rectangle> sonRectangles2 = new ArrayList<Rectangle>();
-    ArrayList<Long> sonChilds2 = new ArrayList<Long>();
+    ArrayList<Rectangle> sonRectangles2;
+    ArrayList<Long> sonChilds2;
     int secondIndex = pair.get(1);
 
     if( this.isHorizontalCut(this.rectangles.get(firstIndex), this.rectangles.get(secondIndex)) ) {
@@ -336,6 +336,61 @@ public class Node implements Serializable{
       this.verticalSort();
     }
     // TODO take each half and put it on respective sons (M/2-1 first, rest second)
+    int size = this.rectangles.size();
+    sonRectangles1 = new ArrayList<Rectangle>(this.rectangles.subList(0,((size + 1) / 2) - 1));
+    sonChilds1 = new ArrayList<Long>(this.children.subList(0,((size + 1) / 2) - 1));
+
+    sonRectangles2 =
+        new ArrayList<Rectangle>(this.rectangles.subList(((size + 1) / 2) - 1, size));
+    sonChilds2 = new ArrayList<>(this.children.subList(((size + 1) / 2) - 1, size));
+    // hasta aqui se realizo la division y se separaron en grupos
+    // ahora toca asignar esto a los hijos como corresponda, incluyendo el caso donde son hojas
+    if (this.imRoot) {
+      Long address1 = this.diskController.memoryAssigner();
+      Long address2 = this.diskController.memoryAssigner();
+      Node node1 = new
+          Node(this.m,this.M,sonRectangles1,sonChilds1,this.diskController,address1,this.imLeaf);
+      Node node2 = new
+          Node(this.m,this.M,sonRectangles2,sonChilds2,this.diskController,address2,this.imLeaf);
+      // clear children and add the two new ones
+      this.rectangles = new ArrayList<>();
+      this.children = new ArrayList<>();
+      this.addChild(Rectangle.calculateMBR(sonRectangles1),address1);
+      this.addChild(Rectangle.calculateMBR(sonRectangles2),address2);
+      this.imLeaf = false;
+
+      diskController.saveNode(this);
+      diskController.saveNode(node1);
+      diskController.saveNode(node2);
+      return null;
+    }
+    /*
+        if(this.imRoot){
+      Long address1 = this.diskController.memoryAssigner();
+      Long address2 = this.diskController.memoryAssigner();
+      Node n1 = new Node(this.m,this.M,r1,c1,this.diskController,address1,this.imLeaf);
+      Node n2 = new Node(this.m,this.M,r2,c2,this.diskController,address2,this.imLeaf);
+
+      this.rectangles = new ArrayList<Rectangle>();
+      this.children = new ArrayList<Long>();
+      this.addChild(Rectangle.calculateMBR(r1),address1);
+      this.addChild(Rectangle.calculateMBR(r2),address2);
+      this.imLeaf = false;
+
+      diskController.saveNode(this);
+      diskController.saveNode(n1);
+      diskController.saveNode(n2);
+      return null;
+    }
+    // update node
+    this.rectangles = r1;
+    this.children = c1;
+    Long addrBro = this.diskController.memoryAssigner();
+    Node bro = new Node(this.m,this.M,r2,c2,this.diskController,addrBro,this.imLeaf);
+    diskController.saveNode(this);
+    diskController.saveNode(bro);
+    return addrBro;
+     */
     return null;
   }
 
