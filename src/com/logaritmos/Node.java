@@ -91,10 +91,6 @@ public class Node implements Serializable{
     return diskController.loadNode(getChildAddress(index));
   }
 
-  private Rectangle getRectangle(int index){
-    return this.rectangles.get(index);
-  }
-
   public ArrayList<Rectangle> search(Rectangle r)
       throws IOException, ClassNotFoundException{
     ArrayList<Rectangle> found = new ArrayList<Rectangle>();
@@ -192,7 +188,7 @@ public class Node implements Serializable{
     this.children.add(addr);
   }
 
-  private ArrayList<Integer> farestRectangle(){
+  private ArrayList<Integer> farthestRectangle(){
     int index = 0;
     int top = 0;
     int bottom = 0;
@@ -250,7 +246,7 @@ public class Node implements Serializable{
 
   //Overwrite
   public Long linearSplit() throws Exception {
-    ArrayList<Integer> splitted = this.farestRectangle();
+    ArrayList<Integer> splitted = this.farthestRectangle();
 
     ArrayList<Rectangle> r1 = new ArrayList<Rectangle>();
     ArrayList<Long> c1 = new ArrayList<Long>();
@@ -323,7 +319,7 @@ public class Node implements Serializable{
   }
 
   public Long greeneSplit() {
-    ArrayList<Integer> splitted = this.farestRectangle();
+    ArrayList<Integer> splitted = this.farthestRectangle();
 
     ArrayList<Rectangle> r1 = new ArrayList<Rectangle>();
     ArrayList<Long> c1 = new ArrayList<Long>();
