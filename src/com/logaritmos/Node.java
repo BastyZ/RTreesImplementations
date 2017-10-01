@@ -323,26 +323,25 @@ public class Node implements Serializable{
     ArrayList<Integer> pair = this.farthestRectangle();
     // first son
     ArrayList<Rectangle> sonRectangles1;
-    ArrayList<Long> sonChilds1;
+    ArrayList<Long> sonChildren1;
     int firstIndex = pair.get(0);
     // second son
     ArrayList<Rectangle> sonRectangles2;
-    ArrayList<Long> sonChilds2;
+    ArrayList<Long> sonChildren2;
     int secondIndex = pair.get(1);
 
-    if( this.isHorizontalCut(this.rectangles.get(firstIndex), this.rectangles.get(secondIndex)) ) {
+    if( this.isHorizontalCut(this.rectangles.get(firstIndex),this.rectangles.get(secondIndex))) {
       this.horizontalSort();
     } else {
       this.verticalSort();
     }
-    // TODO take each half and put it on respective sons (M/2-1 first, rest second)
     // M/2-1 == ( (size+1)/2 )-1
     int size = this.rectangles.size();
     sonRectangles1 = new ArrayList<Rectangle>(this.rectangles.subList(0,((size + 1) / 2) - 1));
-    sonChilds1 = new ArrayList<Long>(this.children.subList(0,((size + 1) / 2) - 1));
+    sonChildren1 = new ArrayList<Long>(this.children.subList(0,((size + 1) / 2) - 1));
 
     sonRectangles2 = new ArrayList<>(this.rectangles.subList(((size + 1) / 2) - 1, size));
-    sonChilds2 = new ArrayList<>(this.children.subList(((size + 1) / 2) - 1, size));
+    sonChildren2 = new ArrayList<>(this.children.subList(((size + 1) / 2) - 1, size));
     // desde acá es una copia adaptada de linearsplit, ya que no varía con la heurística
     // hasta aqui se realizo la division y se separaron en grupos
     // ahora toca asignar esto a los hijos como corresponda, incluyendo el caso donde son hojas
@@ -350,9 +349,9 @@ public class Node implements Serializable{
       Long address1 = this.diskController.memoryAssigner();
       Long address2 = this.diskController.memoryAssigner();
       Node node1 = new
-          Node(this.m,this.M,sonRectangles1,sonChilds1,this.diskController,address1,this.imLeaf);
+          Node(this.m,this.M,sonRectangles1,sonChildren1,this.diskController,address1,this.imLeaf);
       Node node2 = new
-          Node(this.m,this.M,sonRectangles2,sonChilds2,this.diskController,address2,this.imLeaf);
+          Node(this.m,this.M,sonRectangles2,sonChildren2,this.diskController,address2,this.imLeaf);
       // clear original children and add the two new ones
       this.rectangles = new ArrayList<>();
       this.children = new ArrayList<>();
@@ -367,10 +366,10 @@ public class Node implements Serializable{
     }
     // update node
     this.rectangles = sonRectangles1;
-    this.children = sonChilds1;
+    this.children = sonChildren1;
     Long broAddress = this.diskController.memoryAssigner();
     Node bro = new
-        Node(this.m,this.M,sonRectangles2,sonChilds2,this.diskController,broAddress,this.imLeaf);
+        Node(this.m,this.M,sonRectangles2,sonChildren2,this.diskController,broAddress,this.imLeaf);
     diskController.saveNode(this);
     diskController.saveNode(bro);
     return broAddress;
