@@ -85,7 +85,7 @@ public class Node implements Serializable{
     return this.children.get(index);
   }
 
-  private Node getChild (int index) throws IOException, ClassNotFoundException{
+  private Node getChildFromDisk(int index) throws IOException, ClassNotFoundException{
     return diskController.loadNode(getChildAddress(index));
   }
 
@@ -106,7 +106,7 @@ public class Node implements Serializable{
       int index = 0;
       for (Rectangle temp : this.rectangles){
         if (temp.intersects(r)){
-          ArrayList<Rectangle> inception = this.getChild(index).search(r);
+          ArrayList<Rectangle> inception = this.getChildFromDisk(index).search(r);
           found.addAll(inception);
         }
         index++;
@@ -166,9 +166,9 @@ public class Node implements Serializable{
       }
       int cIndex = candidates.get(0);
       //insertamos en rectangulo elegido
-      Node thisChild = this.getChild(cIndex);
+      Node thisChild = this.getChildFromDisk(cIndex);
       Long childAddr = thisChild.insert(r, overflowHandler);
-      ArrayList<Rectangle> childrenRect = this.getChild(cIndex).getRectangles();
+      ArrayList<Rectangle> childrenRect = this.getChildFromDisk(cIndex).getRectangles();
       if (childAddr != null) {
         addChild(Rectangle.calculateMBR(childrenRect),childAddr);
       }
@@ -195,8 +195,11 @@ public class Node implements Serializable{
     int bottom = 0;
     int left = 0;
     int right = 0;
-    int minTop, maxBottom, maxLeft, minRight;
-    //iteramos sobre rectangles
+    int minTop = 0;
+    int maxBottom = 0;
+    int maxLeft = 0;
+    int minRight = 0;
+    //iterate over rectangles
     for (Rectangle temp : this.rectangles){
       if (index == 0){
         minTop = temp.getTop();
