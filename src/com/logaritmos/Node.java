@@ -249,7 +249,7 @@ public class Node implements Serializable{
   }
 
   //Overwrite
-  public Long split(LinearSplit l) throws Exception {
+  public Long linearSplit() throws Exception {
     ArrayList<Integer> splitted = this.farestRectangle();
 
     ArrayList<Rectangle> r1 = new ArrayList<Rectangle>();
@@ -322,8 +322,7 @@ public class Node implements Serializable{
     return addrBro;
   }
 
-  //Overwrite
-  public Long split(GreeneSplit g){
+  public Long greeneSplit() {
     ArrayList<Integer> splitted = this.farestRectangle();
 
     ArrayList<Rectangle> r1 = new ArrayList<Rectangle>();
@@ -347,10 +346,4 @@ public class Node implements Serializable{
     return null;
   }
 
-  public Long greeneSplit() {
-    return ;
-  }
-
-  public Long linearSplit() {
-  }
 }
