@@ -270,8 +270,11 @@ public class Node implements Serializable{
     int bottom = 0;
     int left = 0;
     int right = 0;
-    int minTop, maxBottom, maxLeft, minRight;
-    //iteramos sobre rectangles
+    int minTop = 0;
+    int maxBottom = 0;
+    int maxLeft = 0;
+    int minRight = 0;
+    //iterate over rectangles
     for (Rectangle temp : this.rectangles){
       if (index == 0){
         minTop = temp.getTop();
