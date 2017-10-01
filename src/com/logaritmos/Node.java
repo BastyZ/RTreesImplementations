@@ -15,7 +15,7 @@ public class Node implements Serializable{
  private int m; //tamano min de paginacion
  private int M; //tamano max de pag, VARIABLE
  private ArrayList<Rectangle> rectangles;
- private ArrayList<Long> children; //IMPORTANTE: indices de rectangles y children deben coincidir
+ private ArrayList<Long> children; //IMPORTANT: rectangles and children indexes must match
  transient DiskController diskController;
  /*info propia del nodo*/
  private long myAddress;
@@ -48,6 +48,7 @@ public class Node implements Serializable{
     this.imLeaf = leaf;
     this.imRoot = root;
     this.diskController.saveNode(this);
+    this.myMBR = Rectangle.calculateMBR(rectangles);
    }
  }
 
@@ -144,7 +145,7 @@ public class Node implements Serializable{
         }
         index++;
       }
-      //elejimos al MEJOR candidato
+      // choose the BEST candidate
       if (candidates.size() > 1) {
         areaMin = -1;
         int candidate = 0;
@@ -165,10 +166,10 @@ public class Node implements Serializable{
       int cIndex = candidates.get(0);
       //insertamos en rectangulo elegido
       Node thisChild = this.getChildFromDisk(cIndex);
-      Long childAddr = thisChild.insert(r, overflowHandler);
+      Long childAddress = thisChild.insert(r, overflowHandler);
       ArrayList<Rectangle> childrenRect = this.getChildFromDisk(cIndex).getRectangles();
-      if (childAddr != null) {
-        addChild(Rectangle.calculateMBR(childrenRect),childAddr);
+      if (childAddress != null) {
+        addChild(Rectangle.calculateMBR(childrenRect),childAddress);
       }
       this.rectangles.set(cIndex, Rectangle.calculateMBR(childrenRect));
     }
@@ -245,15 +246,15 @@ public class Node implements Serializable{
   }
 
   //Overwrite
-  public Long linearSplit() throws Exception {
-    ArrayList<Integer> splitted = this.farthestRectangle();
+  Long linearSplit() throws Exception {
+    ArrayList<Integer> split = this.farthestRectangle();
 
     ArrayList<Rectangle> r1 = new ArrayList<Rectangle>();
     ArrayList<Long> c1 = new ArrayList<Long>();
-    int a1 = splitted.get(0).intValue();
+    int a1 = split.get(0);
     ArrayList<Rectangle> r2 = new ArrayList<Rectangle>();
     ArrayList<Long> c2 = new ArrayList<Long>();
-    int a2 = splitted.get(1).intValue();
+    int a2 = split.get(1);
 
     c1.add(this.children.get(a1));
     r1.add(this.rectangles.get(a1));
@@ -290,17 +291,17 @@ public class Node implements Serializable{
       }
       maxIndex--;
     }
-    //si el nodo es raiz
+    // if node is root
     if(this.imRoot){
-      Long addr1 = this.diskController.memoryAssigner();
-      Long addr2 = this.diskController.memoryAssigner();
-      Node n1 = new Node(this.m,this.M,r1,c1,this.diskController,addr1,this.imLeaf);
-      Node n2 = new Node(this.m,this.M,r2,c2,this.diskController,addr2,this.imLeaf);
+      Long address1 = this.diskController.memoryAssigner();
+      Long address2 = this.diskController.memoryAssigner();
+      Node n1 = new Node(this.m,this.M,r1,c1,this.diskController,address1,this.imLeaf);
+      Node n2 = new Node(this.m,this.M,r2,c2,this.diskController,address2,this.imLeaf);
 
       this.rectangles = new ArrayList<Rectangle>();
       this.children = new ArrayList<Long>();
-      this.addChild(Rectangle.calculateMBR(r1),addr1);
-      this.addChild(Rectangle.calculateMBR(r2),addr2);
+      this.addChild(Rectangle.calculateMBR(r1),address1);
+      this.addChild(Rectangle.calculateMBR(r2),address2);
       this.imLeaf = false;
 
       diskController.saveNode(this);
@@ -308,7 +309,7 @@ public class Node implements Serializable{
       diskController.saveNode(n2);
       return null;
     }
-    //actualizo el nodo
+    // update node
     this.rectangles = r1;
     this.children = c1;
     Long addrBro = this.diskController.memoryAssigner();
@@ -318,15 +319,15 @@ public class Node implements Serializable{
     return addrBro;
   }
 
-  public Long greeneSplit() {
-    ArrayList<Integer> splitted = this.farthestRectangle();
+  Long greeneSplit() {
+    ArrayList<Integer> split = this.farthestRectangle();
 
     ArrayList<Rectangle> r1 = new ArrayList<Rectangle>();
     ArrayList<Long> c1 = new ArrayList<Long>();
-    int a1 = splitted.get(0).intValue();
+    int a1 = split.get(0);
     ArrayList<Rectangle> r2 = new ArrayList<Rectangle>();
     ArrayList<Long> c2 = new ArrayList<Long>();
-    int a2 = splitted.get(1).intValue();
+    int a2 = split.get(1);
 
     c1.add(this.children.get(a1));
     r1.add(this.rectangles.get(a1));
