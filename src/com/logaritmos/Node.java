@@ -320,27 +320,36 @@ public class Node implements Serializable{
   }
 
   Long greeneSplit() {
-    ArrayList<Integer> split = this.farthestRectangle();
+    ArrayList<Integer> pair = this.farthestRectangle();
+    // first son
+    ArrayList<Rectangle> sonRectangles1 = new ArrayList<Rectangle>();
+    ArrayList<Long> sonChilds1 = new ArrayList<Long>();
+    int firstIndex = pair.get(0);
+    // second son
+    ArrayList<Rectangle> sonRectangles2 = new ArrayList<Rectangle>();
+    ArrayList<Long> sonChilds2 = new ArrayList<Long>();
+    int secondIndex = pair.get(1);
 
-    ArrayList<Rectangle> r1 = new ArrayList<Rectangle>();
-    ArrayList<Long> c1 = new ArrayList<Long>();
-    int a1 = split.get(0);
-    ArrayList<Rectangle> r2 = new ArrayList<Rectangle>();
-    ArrayList<Long> c2 = new ArrayList<Long>();
-    int a2 = split.get(1);
-
-    c1.add(this.children.get(a1));
-    r1.add(this.rectangles.get(a1));
-    c2.add(this.children.get(a2));
-    r2.add(this.rectangles.get(a2));
-
-    this.children.remove(c1.get(0));
-    this.children.remove(c2.get(0));
-    this.rectangles.remove(r1.get(0));
-    this.rectangles.remove(r2.get(0));
-    //TODO Greene's method
-
+    if( this.isHorizontalCut(this.rectangles.get(firstIndex), this.rectangles.get(secondIndex)) ) {
+      this.horizontalSort();
+    } else {
+      this.verticalSort();
+    }
+    // TODO take each half and put it on respective sons (M/2-1 first, rest second)
     return null;
+  }
+
+  private boolean isHorizontalCut(Rectangle first, Rectangle second) {
+    // we compute again normalized axes to determine which one is bigger
+    Integer Xaxis = (first.getRight() - second.getLeft()) / this.myMBR.getWidth();
+    Integer Yaxis = (first.getTop() - second.getBottom()) / this.myMBR.getHeight();
+    return Xaxis >= Yaxis;
+  }
+
+  private void horizontalSort() {
+  }
+
+  private void verticalSort() {
   }
 
 }
