@@ -336,13 +336,14 @@ public class Node implements Serializable{
       this.verticalSort();
     }
     // TODO take each half and put it on respective sons (M/2-1 first, rest second)
+    // M/2-1 == ( (size+1)/2 )-1
     int size = this.rectangles.size();
     sonRectangles1 = new ArrayList<Rectangle>(this.rectangles.subList(0,((size + 1) / 2) - 1));
     sonChilds1 = new ArrayList<Long>(this.children.subList(0,((size + 1) / 2) - 1));
 
-    sonRectangles2 =
-        new ArrayList<Rectangle>(this.rectangles.subList(((size + 1) / 2) - 1, size));
+    sonRectangles2 = new ArrayList<>(this.rectangles.subList(((size + 1) / 2) - 1, size));
     sonChilds2 = new ArrayList<>(this.children.subList(((size + 1) / 2) - 1, size));
+    // desde acá es una copia adaptada de linearsplit, ya que no varía con la heurística
     // hasta aqui se realizo la division y se separaron en grupos
     // ahora toca asignar esto a los hijos como corresponda, incluyendo el caso donde son hojas
     if (this.imRoot) {
@@ -352,7 +353,7 @@ public class Node implements Serializable{
           Node(this.m,this.M,sonRectangles1,sonChilds1,this.diskController,address1,this.imLeaf);
       Node node2 = new
           Node(this.m,this.M,sonRectangles2,sonChilds2,this.diskController,address2,this.imLeaf);
-      // clear children and add the two new ones
+      // clear original children and add the two new ones
       this.rectangles = new ArrayList<>();
       this.children = new ArrayList<>();
       this.addChild(Rectangle.calculateMBR(sonRectangles1),address1);
@@ -364,34 +365,15 @@ public class Node implements Serializable{
       diskController.saveNode(node2);
       return null;
     }
-    /*
-        if(this.imRoot){
-      Long address1 = this.diskController.memoryAssigner();
-      Long address2 = this.diskController.memoryAssigner();
-      Node n1 = new Node(this.m,this.M,r1,c1,this.diskController,address1,this.imLeaf);
-      Node n2 = new Node(this.m,this.M,r2,c2,this.diskController,address2,this.imLeaf);
-
-      this.rectangles = new ArrayList<Rectangle>();
-      this.children = new ArrayList<Long>();
-      this.addChild(Rectangle.calculateMBR(r1),address1);
-      this.addChild(Rectangle.calculateMBR(r2),address2);
-      this.imLeaf = false;
-
-      diskController.saveNode(this);
-      diskController.saveNode(n1);
-      diskController.saveNode(n2);
-      return null;
-    }
     // update node
-    this.rectangles = r1;
-    this.children = c1;
-    Long addrBro = this.diskController.memoryAssigner();
-    Node bro = new Node(this.m,this.M,r2,c2,this.diskController,addrBro,this.imLeaf);
+    this.rectangles = sonRectangles1;
+    this.children = sonChilds1;
+    Long broAddress = this.diskController.memoryAssigner();
+    Node bro = new
+        Node(this.m,this.M,sonRectangles2,sonChilds2,this.diskController,broAddress,this.imLeaf);
     diskController.saveNode(this);
     diskController.saveNode(bro);
-    return addrBro;
-     */
-    return null;
+    return broAddress;
   }
 
   private boolean isHorizontalCut(Rectangle first, Rectangle second) {
