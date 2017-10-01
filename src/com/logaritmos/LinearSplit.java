@@ -6,4 +6,9 @@ public class LinearSplit implements ISplit {
   public String name() {
     return "Linear Split";
   }
+
+  @Override
+  public Long splittingMethod(Node n) {
+    return n.linearSplit();
+  }
 }

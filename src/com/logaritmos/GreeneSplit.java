@@ -6,4 +6,9 @@ public class GreeneSplit implements ISplit {
   public String name() {
     return "Greene's Split";
   }
+
+  @Override
+  public Long splittingMethod(Node n) {
+    return n.greeneSplit();
+  }
 }

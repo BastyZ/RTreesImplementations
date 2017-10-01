@@ -348,4 +348,10 @@ public class Node implements Serializable{
     return null;
   }
 
+  public Long greeneSplit() {
+    return ;
+  }
+
+  public Long linearSplit() {
+  }
 }
