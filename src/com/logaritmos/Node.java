@@ -174,13 +174,14 @@ public class Node implements Serializable{
       }
       this.rectangles.set(cIndex, Rectangle.calculateMBR(childrenRect));
     }
+
     if (this.rectangles.size() <= this.M) {
       //si no hubo overflow, guarda y retorna null
       diskController.saveNode(this);
       return null;
     } else {
       //si hay overflow hay que hacer split
-      return this.split(overflowHandler);
+      return overflowHandler.splittingMethod(this);
     }
   }
 
