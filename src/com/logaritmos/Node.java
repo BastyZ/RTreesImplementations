@@ -342,7 +342,7 @@ public class Node implements Serializable{
 
     sonRectangles2 = new ArrayList<>(this.rectangles.subList(((size + 1) / 2) - 1, size));
     sonChildren2 = new ArrayList<>(this.children.subList(((size + 1) / 2) - 1, size));
-    // desde acá es una copia adaptada de linearsplit, ya que no varía con la heurística
+    // desde acá es una copia adaptada de linear split, ya que no varía con la heurística
     // hasta aqui se realizo la division y se separaron en grupos
     // ahora toca asignar esto a los hijos como corresponda, incluyendo el caso donde son hojas
     if (this.imRoot) {
