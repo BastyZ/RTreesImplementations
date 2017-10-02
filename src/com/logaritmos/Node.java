@@ -390,11 +390,41 @@ public class Node implements Serializable{
   }
 
   private void horizontalHeapify(int i){
-
+    int n = this.rectangles.size();
+    ArrayList<Rectangle> rects = this.rectangles;
+    // start indexes pointers
+    int largest = i;
+    int l = 2*i + 1; //left child
+    int r = 2*i + 2; //right child
+    if ( l < n && rects.get(l).getLeft() > rects.get(largest).getLeft() ) {
+      largest = l;
+    }
+    if ( r < n && rects.get(r).getLeft() > rects.get(largest).getLeft() ) {
+      largest = r;
+    }
+    if (largest != i) {
+      this.swapChildren(i,largest);
+      this.horizontalHeapify(largest);
+    }
   }
 
   private void verticalHeapify(int i) {
-
+    int n = this.rectangles.size();
+    ArrayList<Rectangle> rects = this.rectangles;
+    // start indexes pointers
+    int largest = i;
+    int l = 2*i + 1; //left child
+    int r = 2*i + 2; //right child
+    if ( l < n && rects.get(l).getBottom() > rects.get(largest).getBottom() ) {
+      largest = l;
+    }
+    if ( r < n && rects.get(r).getBottom() > rects.get(largest).getBottom() ) {
+      largest = r;
+    }
+    if (largest != i) {
+      this.swapChildren(i,largest);
+      this.verticalHeapify(largest);
+    }
   }
 
   private void swapChildren(int i,int j){
