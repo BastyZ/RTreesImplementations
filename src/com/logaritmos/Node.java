@@ -384,13 +384,22 @@ public class Node implements Serializable{
   }
 
   private void horizontalSort() {
+    int n = this.rectangles.size();
+    for (int i = n/2 -1; i >= 0; i--) {
+      this.swapChildren(0,i);
+      horizontalHeapify(i,0);
+    }
   }
 
   private void verticalSort() {
+    int n = this.rectangles.size();
+    for (int i = n/2 -1; i >= 0; i--) {
+      this.swapChildren(0,i);
+      horizontalHeapify(i,0);
+    }
   }
 
-  private void horizontalHeapify(int i){
-    int n = this.rectangles.size();
+  private void horizontalHeapify(int n, int i){
     ArrayList<Rectangle> rects = this.rectangles;
     // start indexes pointers
     int largest = i;
@@ -404,12 +413,11 @@ public class Node implements Serializable{
     }
     if (largest != i) {
       this.swapChildren(i,largest);
-      this.horizontalHeapify(largest);
+      this.horizontalHeapify(n, largest);
     }
   }
 
-  private void verticalHeapify(int i) {
-    int n = this.rectangles.size();
+  private void verticalHeapify(int n, int i) {
     ArrayList<Rectangle> rects = this.rectangles;
     // start indexes pointers
     int largest = i;
@@ -423,7 +431,7 @@ public class Node implements Serializable{
     }
     if (largest != i) {
       this.swapChildren(i,largest);
-      this.verticalHeapify(largest);
+      this.verticalHeapify(n, largest);
     }
   }
 
