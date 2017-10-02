@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class Node implements Serializable{
@@ -386,6 +387,19 @@ public class Node implements Serializable{
   }
 
   private void verticalSort() {
+  }
+
+  private void horizontalHeapify(int i){
+
+  }
+
+  private void verticalHeapify(int i) {
+
+  }
+
+  private void swapChildren(int i,int j){
+    Collections.swap(rectangles,i,j);
+    Collections.swap(children,i,j);
   }
 
 }
