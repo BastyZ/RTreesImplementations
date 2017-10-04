@@ -13,15 +13,18 @@ public class Main {
     //int M = (int) args[0];
     //int B = 4096; //bytes max por pagina
     int M = 150; //cantidad de rectangulos tal que el nodo no pese mas que B
-    int m = 60; //
 
     int maxCord = 500000;
     int maxDelta= 100;
 
-
-
     Random rnd = new Random();
     Scanner s = new Scanner(System.in);
+    while (M < 1 || M > 4096) {
+      System.out.println("Ingrese la cantidad de rectangulos (n entre 2^9 y 2^25):");
+      M = Integer.parseInt(s.nextLine()); //nro de rectangulos
+    }
+    int m = (M * 40) / 100; // m = 40% M
+
     int nRectMin = 2^9;
     int nRectMax = 2^25;
     int n = 0;
