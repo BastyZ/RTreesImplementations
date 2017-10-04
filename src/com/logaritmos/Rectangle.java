@@ -123,7 +123,9 @@ public class Rectangle implements Serializable {
   }
 
   static Rectangle calculateMBR(ArrayList<Rectangle> rectangles) {
-    Rectangle ans = new Rectangle( 500000,0,0,50000);
+    Rectangle ans = new Rectangle( 0,0,0,0);
+    ans.left = 500000;
+    ans.bottom = 500000;
     for (Rectangle r : rectangles) {
       ans.left = min(ans.left, r.left);
       ans.right = max(ans.right, r.right);
