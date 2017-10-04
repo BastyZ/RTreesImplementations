@@ -33,8 +33,6 @@ public class Main {
       long address = diskController.memoryAssigner();
       Root tree = new Root(m,M,r,diskController,address);
 
-      ArrayList<Rectangle> toFind = new ArrayList<Rectangle>();
-
       Date date = new Date();
 
       LinearSplit lsplit = new LinearSplit();
@@ -57,6 +55,8 @@ public class Main {
       System.out.println("Nro de accesos a disco : "+diskController.callDisk);
 
       //Greene Split
+      diskController.callDisk=0;
+      tree = new Root(m,M,r,diskController,address);
       rn = null;
       System.out.println("Insersiones tipo "+gsplit.name()+" con M="+M+" y n="+n);
       System.out.println(new Timestamp(date.getTime())+" : Timestamp primera insercion");
@@ -73,10 +73,29 @@ public class Main {
       System.out.println("Nro de accesos a disco : "+diskController.callDisk);
 
       //Busqueda
+      ArrayList<Rectangle> toFind = new ArrayList<Rectangle>();
+      for(int i = 0; i < n; i++){
+        left = rnd.nextInt(maxCord);
+        bottom = rnd.nextInt(maxCord);
+        deltaX = rnd.nextInt(maxDelta);
+        deltaY = rnd.nextInt(maxDelta);
+        rn = new Rectangle(left,left+deltaX,bottom+deltaY, bottom);
+        toFind.add(rn);
+      }
+      diskController.callDisk=0;
+      date = new Date();
+      System.out.println(new Timestamp(date.getTime())+" : Timestamp antes de la búsqueda, con n="+n);
 
-
-
-
-      System.out.print("Hello fuckers");
+      int rfound = 0;
+      for(Rectangle searched : toFind){
+        ArrayList<Rectangle> foundRect = tree.search(searched);
+        rfound+= foundRect.size();
+      }
+      date = new Date();
+      System.out.println("Se buscaron "+toFind.size()+" elementos");
+      System.out.println("Se encontraron "+rfound+" elementos");
+      System.out.println("Nro de accesos a disco en búsqueda : "+diskController.callDisk);
+      System.out.println(new Timestamp(date.getTime())+" : Timestamp después de la búsqueda, con n="+n);
+      System.out.print("Bye fuckers");
     }
 }
