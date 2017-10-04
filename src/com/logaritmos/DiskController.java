@@ -53,27 +53,11 @@ public class DiskController {
 
   public Node loadNode(long addr)
       throws IOException, ClassNotFoundException{
-    if (nodes.containsKey(addr)){
-      this.setLast(addr);
-      return nodes.get(addr);
-    } else {
-      if ( PageSize == usedNodes){
-        long lastAddr = lastOnes.pollLast();
-        Node lastNode = nodes.get(lastAddr);
-        if (stateOfNodes.get(lastAddr)){
-          writeFile(lastNode, lastAddr);
-        }
-        nodes.remove(lastAddr);
-        stateOfNodes.remove(lastAddr);
-      }
-
-      Node temp = readFile(addr);
-      lastOnes.addFirst(addr);
-      stateOfNodes.put(addr,false);
-      nodes.put(addr,temp);
-      return temp;
-    }
-
+    Node temp = readFile(addr);
+    lastOnes.addFirst(addr);
+    stateOfNodes.put(addr,false);
+    nodes.put(addr,temp);
+    return temp;
   }
 
   private void setLast(long addr){
