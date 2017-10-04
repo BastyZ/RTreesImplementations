@@ -27,8 +27,7 @@ public class DiskController {
     createdNodes = 1;
   }
 
-  public void saveNode(Node n)
-      throws IOException{
+  public void saveNode(Node n) throws IOException{
     long addr = n.getMemoryAddress();
     if (nodes.containsKey(addr)){
       nodes.put(addr, n);
