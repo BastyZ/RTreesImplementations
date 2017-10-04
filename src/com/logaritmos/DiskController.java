@@ -38,7 +38,7 @@ public class DiskController {
       nodes.put(addr,n);
       stateOfNodes.put(addr,true);
       this.usedNodes++;
-      writeFile(n,addr);
+      //writeFile(n,addr);
     } else {
       long lastAddr = lastOnes.pollLast();
       Node temp = nodes.get(lastAddr);
