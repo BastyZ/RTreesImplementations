@@ -33,7 +33,6 @@ public class Main {
       long address = diskController.memoryAssigner();
       Root tree = new Root(m,M,r,diskController,address);
 
-      Rectangle rn = null;
       ArrayList<Rectangle> toFind = new ArrayList<Rectangle>();
 
       Date date = new Date();
@@ -41,9 +40,10 @@ public class Main {
       LinearSplit lsplit = new LinearSplit();
       GreeneSplit gsplit = new GreeneSplit();
 
+      //Linear Split
+      Rectangle rn = null;
       System.out.println("Insersiones tipo "+lsplit.name()+" con M="+M+" y n="+n);
       System.out.println(new Timestamp(date.getTime())+" : Timestamp primera insercion");
-
       for(int i = 0; i < n; i++){
         left = rnd.nextInt(maxCord);
         bottom = rnd.nextInt(maxCord);
@@ -52,6 +52,28 @@ public class Main {
         rn = new Rectangle(left,left+deltaX,bottom+deltaY, bottom);
         tree.insert(rn,lsplit);
       }
+      date = new Date();
+      System.out.println(new Timestamp(date.getTime())+" : Timestamp con "+n+" inserciones.");
+      System.out.println("Nro de accesos a disco : "+diskController.callDisk);
+
+      //Greene Split
+      rn = null;
+      System.out.println("Insersiones tipo "+gsplit.name()+" con M="+M+" y n="+n);
+      System.out.println(new Timestamp(date.getTime())+" : Timestamp primera insercion");
+      for(int i = 0; i < n; i++){
+        left = rnd.nextInt(maxCord);
+        bottom = rnd.nextInt(maxCord);
+        deltaX = rnd.nextInt(maxDelta);
+        deltaY = rnd.nextInt(maxDelta);
+        rn = new Rectangle(left,left+deltaX,bottom+deltaY, bottom);
+        tree.insert(rn,lsplit);
+      }
+      date = new Date();
+      System.out.println(new Timestamp(date.getTime())+" : Timestamp con "+n+" inserciones.");
+      System.out.println("Nro de accesos a disco : "+diskController.callDisk);
+
+      //Busqueda
+
 
 
 
