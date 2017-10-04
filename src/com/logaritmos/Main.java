@@ -10,19 +10,14 @@ public class Main {
 
 
   public static void main(String[] args) throws Exception {
-    //int M = (int) args[0];
-    //int B = 4096; //bytes max por pagina
-    int M = 0; //cantidad de rectangulos tal que el nodo no pese mas que B
+    int M = 157; //cantidad de rectangulos tal que el nodo no pese mas que B
+                  // calculado con Test.java
 
     int maxCord = 500000;
     int maxDelta= 100;
 
     Random rnd = new Random();
     Scanner s = new Scanner(System.in);
-    while (M < 1 || M > 4096) {
-      System.out.println("Ingrese M:");
-      M = ( Integer.parseInt(s.nextLine()) ); //nro de rectangulos
-    }
     int m = (M * 40) / 100; // m = 40% M
 
     int n = 0;

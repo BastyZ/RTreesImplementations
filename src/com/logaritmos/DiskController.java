@@ -24,7 +24,7 @@ public class DiskController {
     lastOnes = new LinkedList<Long>();
     usedNodes = 0;
     callDisk = 0;
-    createdNodes = 1;
+    createdNodes = 0;
   }
 
   public void saveNode(Node n) throws IOException{
@@ -33,11 +33,12 @@ public class DiskController {
       nodes.put(addr, n);
       stateOfNodes.put(addr,true);
       this.setLast(addr);
+      writeFile(n,addr);
     } else if (usedNodes < PageSize){
       nodes.put(addr,n);
       stateOfNodes.put(addr,true);
       this.usedNodes++;
-      return;
+      writeFile(n,addr);
     } else {
       long lastAddr = lastOnes.pollLast();
       Node temp = nodes.get(lastAddr);
