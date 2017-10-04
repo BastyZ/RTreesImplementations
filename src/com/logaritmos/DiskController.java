@@ -17,8 +17,8 @@ public class DiskController {
   private long createdNodes; //nro nodos creados
   public int callDisk; //nro llamadas a disco
 
-  public DiskController(){
-    PageSize=1;
+  public DiskController(int bufferSize){
+    PageSize=bufferSize;//M
     nodes = new HashMap<Long,Node>();
     stateOfNodes = new HashMap<Long, Boolean>();
     lastOnes = new LinkedList<Long>();
@@ -29,21 +29,51 @@ public class DiskController {
 
   public void saveNode(Node n)
       throws IOException{
-    //TODO: issue #23
     long addr = n.getMemoryAddress();
-    nodes.put(addr, n);
-    stateOfNodes.put(addr,true);
-    this.setLast(addr);
-    if(!nodes.containsKey(addr)){
+    if (nodes.containsKey(addr)){
+      nodes.put(addr, n);
+      stateOfNodes.put(addr,true);
+      this.setLast(addr);
+    } else if (usedNodes < PageSize){
+      nodes.put(addr,n);
+      stateOfNodes.put(addr,true);
       this.usedNodes++;
+      return;
+    } else {
+      long lastAddr = lastOnes.pollLast();
+      Node temp = nodes.get(lastAddr);
+      writeFile(temp, lastAddr);
+      stateOfNodes.remove(lastAddr);
+      nodes.remove(lastAddr);
+      nodes.put(addr,n);
+      lastOnes.addFirst(addr);
+      stateOfNodes.put(addr,true);
     }
-    return;
   }
 
   public Node loadNode(long addr)
       throws IOException, ClassNotFoundException{
-    this.setLast(addr);
-    return nodes.get(addr);
+    if (nodes.containsKey(addr)){
+      this.setLast(addr);
+      return nodes.get(addr);
+    } else {
+      if ( PageSize == usedNodes){
+        long lastAddr = lastOnes.pollLast();
+        Node lastNode = nodes.get(lastAddr);
+        if (stateOfNodes.get(lastAddr)){
+          writeFile(lastNode, lastAddr);
+        }
+        nodes.remove(lastAddr);
+        stateOfNodes.remove(lastAddr);
+      }
+
+      Node temp = readFile(addr);
+      lastOnes.addFirst(addr);
+      stateOfNodes.put(addr,false);
+      nodes.put(addr,temp);
+      return temp;
+    }
+
   }
 
   private void setLast(long addr){
