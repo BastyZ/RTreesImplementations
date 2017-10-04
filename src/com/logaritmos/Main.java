@@ -12,7 +12,7 @@ public class Main {
   public static void main(String[] args) throws Exception {
     //int M = (int) args[0];
     //int B = 4096; //bytes max por pagina
-    int M = 150; //cantidad de rectangulos tal que el nodo no pese mas que B
+    int M = 0; //cantidad de rectangulos tal que el nodo no pese mas que B
 
     int maxCord = 500000;
     int maxDelta= 100;
