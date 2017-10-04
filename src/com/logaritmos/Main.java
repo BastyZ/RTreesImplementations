@@ -1,6 +1,6 @@
 package com.logaritmos;
 
-import com.sun.jmx.snmp.Timestamp;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
@@ -20,18 +20,19 @@ public class Main {
     Random rnd = new Random();
     Scanner s = new Scanner(System.in);
     while (M < 1 || M > 4096) {
-      System.out.println("Ingrese la cantidad de rectangulos (n entre 2^9 y 2^25):");
-      M = Integer.parseInt(s.nextLine()); //nro de rectangulos
+      System.out.println("Ingrese M:");
+      M = ( Integer.parseInt(s.nextLine()) ); //nro de rectangulos
     }
     int m = (M * 40) / 100; // m = 40% M
 
     int nRectMin = 2^9;
     int nRectMax = 2^25;
     int n = 0;
-    while (n < nRectMin || n > nRectMax) {
-      System.out.println("Ingrese la cantidad de rectangulos (n entre 2^9 y 2^25):");
-      n = Integer.parseInt(s.nextLine()); //nro de rectangulos
+    while (n < 9 || n > 25) {
+      System.out.println("Ingrese la cantidad de rectangulos (n entre 9 y 25):");
+      n =( Integer.parseInt(s.nextLine()) ); //nro de rectangulos
     }
+    n = (int) Math.pow(2,n);
     int k = 0;
     while (k <= 1 || k >= n) {
       System.out.println("Ingrese el porción de rectangulos a buscar (k entre 1 y n):");

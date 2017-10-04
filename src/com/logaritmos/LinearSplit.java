@@ -8,7 +8,7 @@ public class LinearSplit implements ISplit {
   }
 
   @Override
-  public Long splittingMethod(Node n) {
+  public Long splittingMethod(Node n) throws Exception {
     return n.linearSplit();
   }
 }
