@@ -85,9 +85,15 @@ public class DiskController {
     return this.createdNodes;
   }
 
+  public long getNodeSize(long addr) throws Exception{
+    FileInputStream file = new FileInputStream(addr+".node");
+    return file.getChannel().size(); //tamaño del nodo en bytes
+  }
+
   private Node readFile(long addr)
       throws IOException, ClassNotFoundException{
-    ObjectInputStream node = new ObjectInputStream(new FileInputStream(addr+".node"));
+    FileInputStream file = new FileInputStream(addr+".node");
+    ObjectInputStream node = new ObjectInputStream(file);
     Node n = (Node) node.readObject();
     node.close();
     this.callDisk++;
