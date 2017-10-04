@@ -25,8 +25,6 @@ public class Main {
     }
     int m = (M * 40) / 100; // m = 40% M
 
-    int nRectMin = 2^9;
-    int nRectMax = 2^25;
     int n = 0;
     while (n < 9 || n > 25) {
       System.out.println("Ingrese la cantidad de rectangulos (n entre 9 y 25):");
