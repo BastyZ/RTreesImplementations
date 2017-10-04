@@ -13,7 +13,7 @@ public class Main {
 
     int maxCord = 500000;
     int maxDelta= 100;
-
+//PARAMETRO A CAMBIAR :D
     int x = 9;//0; not-> x<9 || x>25
 
     int k = 10;
@@ -134,9 +134,9 @@ public class Main {
     System.out.println("-- RESULTADOS -----------------------------------");
     System.out.println("Nro elementos : "+n);
     System.out.println("1. linear (tiempo(ns) | accesos), greene (tiempo(ns) | accesos)");
-    System.out.println(linearTime+", "+linearCount+", "+greeneTime+", "+greeneCount);
+    System.out.println(linearTime+"\t"+linearCount+"\t"+greeneTime+"\t"+greeneCount);
     System.out.println("2. Porcentaje de ocupacion (%) : "+ocupation);
     System.out.println("3. rect. (buscados | encontrados) busqueda (tiempo(ns) | acceso) ");
-    System.out.println(toFind.size()+", "+rfound+", "+searchTIme+", "+searchCount);
+    System.out.println(toFind.size()+"\t"+rfound+"\t"+searchTIme+"\t"+searchCount);
   }
 }
