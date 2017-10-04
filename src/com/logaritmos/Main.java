@@ -42,7 +42,7 @@ public class Main {
     int deltaY = rnd.nextInt(maxDelta);
 
     Rectangle r = new Rectangle(left, left+deltaX,bottom+deltaY,bottom);
-    DiskController diskController = new DiskController();
+    DiskController diskController = new DiskController(M);
     long address = diskController.memoryAssigner();
     Root tree = new Root(m,M,r,diskController,address);
 
