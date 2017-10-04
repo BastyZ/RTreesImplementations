@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -87,6 +88,22 @@ public class DiskController {
   public long memoryAssigner(){
     this.createdNodes++;
     return this.createdNodes;
+  }
+
+  public float nodeOcupation() throws Exception {
+    int fullNodeSize = 4096; //B
+    ArrayList<Float> cN = new ArrayList<Float>();
+    for (int i=1 ; i<= createdNodes ; i++){
+      long addr = (long) i;
+      long temp = this.getNodeSize(addr);
+      float ocupation = (temp*100)/fullNodeSize;
+      cN.add(ocupation);
+    }
+    float sum=0;
+    for(float p : cN){
+      sum = sum + p;
+    }
+    return sum/this.createdNodes;
   }
 
   public long getNodeSize(long addr) throws Exception{

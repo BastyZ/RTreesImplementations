@@ -42,7 +42,8 @@ public class Test {
       tree.insert(rn, new LinearSplit());
       System.out.println("Rectangulos insertados : " + n);
     }
-
+    float nodeCoverage = diskController.nodeOcupation();
+    System.out.println("Coverage : "+nodeCoverage);
     System.out.println("Tamaño de raiz llena : " + diskController.getNodeSize(address) + " bytes, con "+n+" nodos insertados. Con raiz vacía de "+rootSize+" bytes");
     //Tamaño de raiz llena : 4089 bytes, con 157 nodos insertados. Con raiz vacía de 478 bytes
 
