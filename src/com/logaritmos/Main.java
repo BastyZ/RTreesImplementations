@@ -50,7 +50,7 @@ public class Main {
     GreeneSplit gsplit = new GreeneSplit();
 
     //Linear Split
-    Rectangle rn = null;
+    Rectangle rn;
     System.out.println("Insersiones tipo "+lsplit.name()+" con M="+M+" y n="+n);
     System.out.println(new Timestamp(date.getTime())+" : Timestamp primera insercion");
     for(int i = 0; i < n; i++){
@@ -68,7 +68,6 @@ public class Main {
     //Greene Split
     diskController.callDisk=0;
     tree = new Root(m,M,r,diskController,address);
-    rn = null;
     System.out.println("Insersiones tipo "+gsplit.name()+" con M="+M+" y n="+n);
     System.out.println(new Timestamp(date.getTime())+" : Timestamp primera insercion");
     for(int i = 0; i < n; i++){
@@ -84,7 +83,7 @@ public class Main {
     System.out.println("Nro de accesos a disco : "+diskController.callDisk);
 
     //Busqueda
-    ArrayList<Rectangle> toFind = new ArrayList<Rectangle>();
+    ArrayList<Rectangle> toFind = new ArrayList<>();
     for(int i = 0; i < n / k; i++){
       left = rnd.nextInt(maxCord);
       bottom = rnd.nextInt(maxCord);
