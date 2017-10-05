@@ -14,7 +14,7 @@ public class Main {
     int maxCord = 500000;
     int maxDelta= 100;
 //PARAMETRO A CAMBIAR :D
-    int x = 9;//0; not-> x<9 || x>25
+    int x = 13;//0; not-> x<9 || x>25
 
     int k = 10;
     int linearCount = 0;
@@ -26,7 +26,7 @@ public class Main {
     int m = (M * 40) / 100; // m = 40% M
 
     /*while (x < 9 || x > 25) {
-    *  System.out.println("Ingrese la cantidad de rectangulos (n entre 9 y 25):");
+    *  System.out.println("Ingrese la cantidad de rectangulos (x entre 9 y 25):");
     *  x =( Integer.parseInt(s.nextLine()) ); //nro de rectangulos
     *}*/
     int n = (int) Math.pow(2,x);
@@ -138,5 +138,7 @@ public class Main {
     System.out.println("2. Porcentaje de ocupacion (%) : "+ocupation);
     System.out.println("3. rect. (buscados | encontrados) busqueda (tiempo(ns) | acceso) ");
     System.out.println(toFind.size()+"\t"+rfound+"\t"+searchTIme+"\t"+searchCount);
+    System.out.println(n+"\t"+linearTime+"\t"+linearCount+"\t"+greeneTime+"\t"+greeneCount+"\t"
+        +ocupation+"\t"+toFind.size()+"\t"+rfound+"\t"+searchTIme+"\t"+searchCount);
   }
 }
